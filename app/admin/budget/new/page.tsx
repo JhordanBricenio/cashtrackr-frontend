@@ -1,4 +1,5 @@
-import CreateBudgetForm from "@/components/admin/CreateBudgetForm";
+
+import CreateBudgetForm from "@/components/budgets/CreateBudgetForm";
 import Link from "next/link";
 
 export default function CreateBudgetPage() {
