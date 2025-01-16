@@ -1,32 +1,17 @@
 import EditBudgetForm from "@/components/budgets/EditBudgetForm";
-import getToken from "@/src/auth/token"
-import { BudgetAPIResponseSchema } from "@/src/schemas";
+import { getBudget } from "@/src/services/budgets";
+import { Metadata } from "next";
 import Link from "next/link";
-import { notFound } from "next/navigation";
 
-const getBudget = async (budgetId: string) => {
 
-    console.log(budgetId)
-
-    const token= getToken()
-    
-    const url = `${process.env.API_URL}/budget/${budgetId}`;
-    const req = await fetch(url, {
-        headers: {
-            Authorization: `Bearer ${token}`
-        },
-    });
-
-    const json = await req.json();
-    if(!req.ok) {
-        notFound()
+export  async function generateMetadata({params}: {params: {id: string}}): Promise<Metadata> {
+    const budget = await getBudget(params.id)
+    return {
+        title: `CashTrackr: ${budget.name}`,
+        description: `Edita el presupuesto ${budget.name} y actualiza los datos`
     }
 
-    const budget= BudgetAPIResponseSchema.parse(json)
-
-    return budget;
 }
-
 
 export default async function EditBudgetPage({params}: {params: {id: string}}) {
 

@@ -1,6 +1,6 @@
 "use server";
 
-import { ErrorMessageSchema, LoginSchema} from "@/src/schemas";
+import { ErrorResposeSchema, LoginSchema} from "@/src/schemas";
 import { cookies } from "next/headers";
 import { redirect } from "next/navigation";
 
@@ -37,8 +37,10 @@ export async function authenticate(
   });
 
   const json = await req.json();
+
+  
   if (!req.ok) {
-    const error = ErrorMessageSchema.parse(json);
+    const {error} = ErrorResposeSchema.parse(json);
     return {
       errors: [error]
     };

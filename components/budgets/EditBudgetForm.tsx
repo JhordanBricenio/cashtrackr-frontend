@@ -22,10 +22,8 @@ export default function EditBudgetForm({ budget }: { budget: Budget }) {
 
   useEffect(() => {
     if (state.success) {
-      toast.success(state.success,{
-        onClose: () => router.push('/admin')
-      })
-      
+      toast.success(state.success)
+      router.push('/admin')     
     }
   }, [state, router])
 
