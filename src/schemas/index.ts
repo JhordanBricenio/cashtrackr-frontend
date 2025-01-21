@@ -1,4 +1,4 @@
-import { z } from "zod";
+import {  z } from "zod";
 export const RegisterSchema = z
   .object({
     email: z
@@ -63,19 +63,39 @@ export const DraftBudgetSchema = z.object({
 
 export const PasswordValidateSchema = z.string().min(1, {message: 'Password no válido'});
 
+export const ExpenseSchema = z.object({
+  id: z.number(),
+  name: z.string(),
+  amount: z.string(),
+  createdAt: z.string(),
+  updatedAt: z.string(),
+  budgetId: z.number()
+})
+
 export const BudgetAPIResponseSchema = z.object({
   id: z.number(),
   name: z.string(),
   amount: z.string(),
   userId: z.number(),
   createdAt: z.string(),
-  updatedAt: z.string()
+  updatedAt: z.string(),
+  expenses: z.array(ExpenseSchema)
 })
 export const ErrorResposeSchema = z.object({
   error: z.string()
 })
-export const BudgetsAPIResponseSchema = z.array(BudgetAPIResponseSchema);
+
+
+export const DraftExpenseSchema= z.object({
+  name:z.string().min(1, {message: 'El nombre del gasto es obligatorio'}),
+  amount: z.coerce.number().min(1, {message: 'Cantidad no válida'})
+})
+export const BudgetsAPIResponseSchema = z.array(BudgetAPIResponseSchema.omit({expenses: true}));
 
 export type User = z.infer<typeof UserSchema>; 
 
 export type Budget= z.infer<typeof BudgetAPIResponseSchema>;
+export type DraftExpense= z.infer<typeof DraftExpenseSchema>;
+export type Expense = z.infer<typeof ExpenseSchema>;
+
+
