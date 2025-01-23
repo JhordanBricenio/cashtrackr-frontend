@@ -101,6 +101,14 @@ export const UpdatePassword= z.object({
 });
 
 
+export const UpdateUser = z.object({
+  name: z.string()
+          .min(1, {message: 'Tu Nombre no puede ir vacio'}),
+  email: z.string()
+          .min(1, {message: 'El Email es Obligatorio'})
+          .email({message: 'Email no válido'}),
+})
+
 export const BudgetsAPIResponseSchema = z.array(BudgetAPIResponseSchema.omit({expenses: true}));
 
 export type User = z.infer<typeof UserSchema>; 

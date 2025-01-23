@@ -1,15 +1,14 @@
 "use client"
 
 import { updatePasswordAction } from "@/actions/update-password-action"
-import { useEffect } from "react"
+import { useEffect, useRef } from "react"
 import { useFormState } from "react-dom"
 import { toast } from "react-toastify"
 import ErrorMessage from "../ui/ErrorMessage"
-import { useRouter } from "next/navigation"
 
 export default function ChangePasswordForm() {
 
-    const router= useRouter();
+    const ref = useRef<HTMLFormElement>(null)
     const [state, dispatch] = useFormState(updatePasswordAction, {
         errors: [],
         success: ''
@@ -18,9 +17,9 @@ export default function ChangePasswordForm() {
     useEffect(() => {
         if (state.success) {
             toast.success(state.success)
-            router.push('/admin/profile/settings')
+            ref.current?.reset()
         }
-    }, [state, router])
+    }, [state])
 
     return (
         <>
@@ -28,6 +27,7 @@ export default function ChangePasswordForm() {
                 className=" mt-14 space-y-5"
                 noValidate
                 action={dispatch}
+                ref={ref}
             >
                 {state.errors.map(error => <ErrorMessage key={error} >{error}</ErrorMessage>)}
                 <div className="flex flex-col gap-5">
